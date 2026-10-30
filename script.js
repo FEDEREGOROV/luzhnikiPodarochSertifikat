@@ -38,7 +38,7 @@ const certificates = [
     category: "aqua",
     tag: "Аквапарк + Термы",
     title: "2 часа",
-    description: "Компактное знакомство с аквапарком и термами — легко вписать в день.",
+    description: "Компактное знакомство с аквапарком и термами – легко вписать в день.",
     prices: [["Взрослый 14+", "3 190 ₽"], ["Детский 7–13", "1 590 ₽"]],
     accent: "#94a8eb",
     hash: "#!auth&view=order&tariffsid=9254,9252,14895,14893,14894&bundlesid=2222,14895,14893,14894&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
@@ -124,6 +124,75 @@ const certificates = [
     price: "57 900 ₽",
     accent: "#5f77d2",
     hash: "#!auth&view=order&tariffsid=13527&bundlesid=111111&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
+  },
+  {
+    id: "spa-thailand",
+    category: "spa",
+    tag: "Массаж + Бани",
+    title: "Традиции Тайланда",
+    duration: "60 + 60 минут",
+    description: "Арома-ойл массаж снимает напряжение, а час в банях помогает полностью переключиться.",
+    price: "4 900 ₽",
+    featured: "Мягкий старт",
+    accent: "#4764ad",
+    hash: "#!auth&view=order&tariffsid=111111&bundlesid=2497&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
+  },
+  {
+    id: "spa-delight",
+    category: "spa",
+    tag: "Массаж + Бани",
+    title: "Тайское наслаждение",
+    duration: "90 + 60 минут",
+    description: "Длинный арома-ойл массаж с тёплым маслом и час спокойного отдыха в банях.",
+    price: "6 300 ₽",
+    accent: "#4764ad",
+    hash: "#!auth&view=order&tariffsid=111111&bundlesid=2498&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
+  },
+  {
+    id: "spa-dreams",
+    category: "spa",
+    tag: "SPA + Бани",
+    title: "Райские грезы",
+    duration: "120 + 60 минут",
+    description: "SPA-программа на выбор, уход за телом и целый час в банном комплексе.",
+    price: "8 900 ₽",
+    featured: "SPA-ритуал",
+    accent: "#4764ad",
+    hash: "#!auth&view=order&tariffsid=111111&bundlesid=2499&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
+  },
+  {
+    id: "spa-sport-60",
+    category: "spa",
+    tag: "Спортивный массаж",
+    title: "Спортивный · 60 минут",
+    duration: "60 + 60 минут",
+    description: "Глубокая проработка мышц с тёплым маслом и восстановление в банях.",
+    price: "5 200 ₽",
+    accent: "#4764ad",
+    hash: "#!auth&view=order&tariffsid=111111&bundlesid=2500&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
+  },
+  {
+    id: "spa-sport-90",
+    category: "spa",
+    tag: "Спортивный массаж",
+    title: "Спортивный · 90 минут",
+    duration: "90 + 60 минут",
+    description: "Более глубокая работа с мышцами и полноценный банный ритуал после массажа.",
+    price: "6 600 ₽",
+    accent: "#4764ad",
+    hash: "#!auth&view=order&tariffsid=111111&bundlesid=2501&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
+  },
+  {
+    id: "spa-date",
+    category: "spa",
+    tag: "SPA для двоих",
+    title: "Идеальное свидание",
+    duration: "90 + 60 минут",
+    description: "Романтический SPA-ритуал на двоих: массаж, спокойная атмосфера и отдых в банях.",
+    price: "15 600 ₽",
+    featured: "Для двоих",
+    accent: "#4764ad",
+    hash: "#!auth&view=order&tariffsid=111111&bundlesid=2502&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
   }
 ];
 
@@ -158,21 +227,26 @@ const categoryContent = {
   },
   club: {
     title: "Выберите клубную карту",
-    description: "Четыре формата большого подарка — на 6 или 12 посещений, для семьи или в премиальном формате."
+    description: "Четыре формата большого подарка – на 6 или 12 посещений, для семьи или в премиальном формате."
+  },
+  spa: {
+    title: "Какой ритуал подарить?",
+    description: "Шесть программ для взрослых 18+. Сертификат действует 90 дней, перед посещением нужна предварительная запись."
   }
 };
 
 function renderCards(category) {
   const visible = certificates.filter(item => item.category === category);
-  grid.innerHTML = visible.map(cardTemplate).join("") +
-    `<p class="catalog-note">Стоимость актуальна на 27 октября 2026 года. Перед оплатой итоговая цена подтверждается в официальном виджете.</p>`;
+  grid.dataset.category = category;
+  grid.innerHTML = visible.map(cardTemplate).join("");
   grid.querySelectorAll(".card-select").forEach(button => {
     button.addEventListener("click", () => selectCertificate(button.dataset.id));
   });
 }
 
 function cardTemplate(item) {
-  const hours = item.category === "pool" || item.id === "club-premium" ? "07:00 — 22:00" : "10:00 — 22:00";
+  const hours = item.category === "pool" || item.id === "club-premium" ? "07:00 – 22:00" : "10:00 – 22:00";
+  const schedule = item.duration ? `Все дни · ${hours} · ${item.duration}` : `Все дни · ${hours}`;
   const prices = item.prices
     ? `<div class="card-prices">${item.prices.map(([label, price]) => `<div class="price-row"><span>${label}</span><strong>${price}</strong></div>`).join("")}</div>`
     : `<div class="card-prices"><div class="price-row single-price"><span>Стоимость</span><strong>${item.price}</strong></div></div>`;
@@ -186,7 +260,7 @@ function cardTemplate(item) {
           ${item.featured ? `<span class="card-badge">${item.featured}</span>` : ""}
         </div>
         <h3>${item.title}</h3>
-        <p class="card-hours">Все дни · ${hours}</p>
+        <p class="card-hours">${schedule}</p>
         <p class="card-description">${item.description}</p>
         ${prices}
       </div>
@@ -219,7 +293,7 @@ function showCategory(category, shouldScroll = true) {
 function selectCertificate(id) {
   selectedCertificate = certificates.find(item => item.id === id);
   renderCards(activeCategory);
-  stickyTitle.textContent = `${selectedCertificate.tag} — ${selectedCertificate.title}`;
+  stickyTitle.textContent = `${selectedCertificate.tag} – ${selectedCertificate.title}`;
   stickyPrice.textContent = selectedCertificate.price || `от ${selectedCertificate.prices.at(-1)[1]}`;
   sticky.classList.add("visible");
   sticky.setAttribute("aria-hidden", "false");
