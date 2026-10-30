@@ -384,7 +384,7 @@ footer { min-height: 240px; display: grid; grid-template-columns: minmax(260px, 
   .footer-main { grid-row: span 2; }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   html { scroll-padding-top: 68px; }
   body { overflow-x: hidden; }
   button, a { touch-action: manipulation; }
@@ -399,16 +399,19 @@ footer { min-height: 240px; display: grid; grid-template-columns: minmax(260px, 
   .mobile-nav:not([hidden]) { grid-template-columns: 1fr; }
   .mobile-nav a { min-height: 48px; display: flex; align-items: center; padding: 11px 4px; font-size: 13px; }
   .hero { min-height: auto; }
-  .hero-copy { padding: 52px 18px 8px; }
-  h1 { font-size: clamp(42px, 13vw, 56px); }
-  .hero-lead { font-size: 15px; line-height: 1.55; margin: 23px 0; }
+  .hero-copy { min-width: 0; padding: 34px 18px 8px; }
+  .hero-copy .eyebrow { max-width: 100%; margin-bottom: 16px; font-size: 9px; line-height: 1.35; }
+  h1 { max-width: 100%; font-size: clamp(34px, 9.8vw, 46px); line-height: .95; }
+  .hero-lead { max-width: 100%; font-size: 14px; line-height: 1.5; margin: 22px 0; }
   .hero-actions { align-items: stretch; flex-direction: column; gap: 8px; }
   .hero-actions .button { min-height: 58px; }
   .hero-actions .text-link { min-height: 44px; align-self: flex-start; display: flex; align-items: center; }
-  .hero-trust { margin-top: 34px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; font-size: 9px; }
+  .hero-trust { margin-top: 28px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; font-size: 8px; line-height: 1.35; }
   .hero-trust li { max-width: none; }
-  .hero-card { padding: 30px 10px 62px; }
-  .gift-card { width: 96%; transform: rotate(2deg); border-radius: 18px; }
+  .hero-water::before { width: 118vw; height: 118vw; right: -54vw; top: 46%; }
+  .sun-disc { top: 61%; right: 15%; }
+  .hero-card { padding: 26px 18px 52px; }
+  .gift-card { width: 100%; transform: rotate(1.5deg); border-radius: 18px; }
   .gift-card-bottom { left: 18px; right: 18px; bottom: 16px; }
   .gift-card-bottom small { display: none; }
   .gift-card-top { padding: 18px; }
@@ -519,11 +522,11 @@ footer { min-height: 240px; display: grid; grid-template-columns: minmax(260px, 
 
 @media (max-width: 370px) {
   .official-logo { width: 154px; height: 26px; background-size: 209px 198px; }
-  h1 { font-size: 40px; }
+  h1 { font-size: 34px; }
   .section-heading h2, .faq-title h2 { font-size: 34px; }
   .experience-card { flex-basis: 86vw; }
   .sticky-title, .sticky-price { max-width: 132px; }
-  .sticky-button { min-width: 142px; }
+  .sticky-button { min-width: 132px; font-size: 9px; }
 }
 
 @media (hover: none) {
