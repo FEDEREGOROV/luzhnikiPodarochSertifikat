@@ -202,6 +202,7 @@ const experienceChoices = document.querySelector(".experience-choices");
 const optionsShell = document.querySelector("#options-shell");
 const optionsTitle = document.querySelector("#options-title");
 const optionsDescription = document.querySelector("#options-description");
+const categoryTabs = [...document.querySelectorAll("[data-category-switch]")];
 const finderProgress = document.querySelector(".finder-progress");
 const changeCategory = document.querySelector(".change-category");
 const recommendationButton = document.querySelector("[data-recommend]");
@@ -215,6 +216,7 @@ const paymentFrame = document.querySelector(".payment-frame");
 const fallbackLink = document.querySelector(".fallback-link");
 let selectedCertificate = null;
 let activeCategory = null;
+let expandedCertificateId = null;
 
 const categoryContent = {
   aqua: {
@@ -239,6 +241,9 @@ function renderCards(category) {
   const visible = certificates.filter(item => item.category === category);
   grid.dataset.category = category;
   grid.innerHTML = visible.map(cardTemplate).join("");
+  grid.querySelectorAll(".mobile-card-summary").forEach(button => {
+    button.addEventListener("click", () => toggleCertificateDetails(button.dataset.expand));
+  });
   grid.querySelectorAll(".card-select").forEach(button => {
     button.addEventListener("click", () => selectCertificate(button.dataset.id));
   });
@@ -247,14 +252,28 @@ function renderCards(category) {
 function cardTemplate(item) {
   const hours = item.category === "pool" || item.id === "club-premium" ? "07:00 – 22:00" : "10:00 – 22:00";
   const schedule = item.duration ? `Все дни · ${hours} · ${item.duration}` : `Все дни · ${hours}`;
+  const summaryPrice = item.price || `от ${item.prices.at(-1)[1]}`;
+  const expanded = expandedCertificateId === item.id || selectedCertificate?.id === item.id;
   const prices = item.prices
     ? `<div class="card-prices">${item.prices.map(([label, price]) => `<div class="price-row"><span>${label}</span><strong>${price}</strong></div>`).join("")}</div>`
     : `<div class="card-prices"><div class="price-row single-price"><span>Стоимость</span><strong>${item.price}</strong></div></div>`;
 
   return `
-    <article class="certificate-card ${selectedCertificate?.id === item.id ? "selected" : ""}" style="--card-accent:${item.accent}" data-id="${item.id}">
+    <article class="certificate-card ${selectedCertificate?.id === item.id ? "selected" : ""} ${expanded ? "expanded" : ""}" style="--card-accent:${item.accent}" data-id="${item.id}">
       <span class="ticket-pattern" aria-hidden="true"></span>
-      <div class="ticket-main">
+      <button class="mobile-card-summary" type="button" data-expand="${item.id}" aria-expanded="${expanded}" aria-controls="details-${item.id}">
+        <span class="mobile-summary-copy">
+          <small>${item.tag}</small>
+          <strong>${item.title}</strong>
+          <i>${item.duration || hours}</i>
+        </span>
+        <span class="mobile-summary-price">
+          <small>${item.prices ? "минимальная цена" : "стоимость"}</small>
+          <strong>${summaryPrice}</strong>
+          <i aria-hidden="true"></i>
+        </span>
+      </button>
+      <div class="ticket-main" id="details-${item.id}">
         <div class="card-top">
           <span class="card-tag">${item.tag}</span>
           ${item.featured ? `<span class="card-badge">${item.featured}</span>` : ""}
@@ -273,13 +292,30 @@ function cardTemplate(item) {
     </article>`;
 }
 
+function toggleCertificateDetails(id) {
+  expandedCertificateId = expandedCertificateId === id ? null : id;
+  renderCards(activeCategory);
+}
+
 function showCategory(category, shouldScroll = true) {
+  if (activeCategory && activeCategory !== category && selectedCertificate?.category !== category) {
+    selectedCertificate = null;
+    sticky.classList.remove("visible");
+    sticky.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("has-selection");
+  }
   activeCategory = category;
+  expandedCertificateId = selectedCertificate?.category === category ? selectedCertificate.id : null;
   const content = categoryContent[category];
   experienceCards.forEach(card => {
     const active = card.dataset.category === category;
     card.classList.toggle("active", active);
     card.setAttribute("aria-pressed", String(active));
+  });
+  categoryTabs.forEach(tab => {
+    const active = tab.dataset.categorySwitch === category;
+    tab.classList.toggle("active", active);
+    tab.setAttribute("aria-pressed", String(active));
   });
   optionsTitle.textContent = content.title;
   optionsDescription.textContent = content.description;
@@ -292,6 +328,7 @@ function showCategory(category, shouldScroll = true) {
 
 function selectCertificate(id) {
   selectedCertificate = certificates.find(item => item.id === id);
+  expandedCertificateId = id;
   renderCards(activeCategory);
   stickyTitle.textContent = `${selectedCertificate.tag} – ${selectedCertificate.title}`;
   stickyPrice.textContent = selectedCertificate.price || `от ${selectedCertificate.prices.at(-1)[1]}`;
@@ -303,6 +340,7 @@ function selectCertificate(id) {
 function resetFinder() {
   activeCategory = null;
   selectedCertificate = null;
+  expandedCertificateId = null;
   optionsShell.hidden = true;
   experienceChoices.hidden = false;
   finderProgress.classList.remove("step-two", "step-three");
@@ -336,6 +374,7 @@ function closePayment() {
 }
 
 experienceCards.forEach(card => card.addEventListener("click", () => showCategory(card.dataset.category)));
+categoryTabs.forEach(tab => tab.addEventListener("click", () => showCategory(tab.dataset.categorySwitch, false)));
 changeCategory.addEventListener("click", resetFinder);
 recommendationButton.addEventListener("click", () => {
   showCategory("aqua", false);

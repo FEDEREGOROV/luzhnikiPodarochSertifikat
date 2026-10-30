@@ -203,6 +203,7 @@ h1 em { color: var(--blue); font-style: italic; }
 .options-head h3 { margin: 0; font-family: "ALS Trigger", Arial, sans-serif; font-weight: 900; font-size: clamp(30px, 3.3vw, 52px); letter-spacing: -.035em; line-height: .95; }
 .options-head p:last-child { color: var(--muted); font-size: 13px; margin: 13px 0 0; }
 .change-category { flex: none; padding: 12px 0; border: 0; border-bottom: 1px solid var(--ink); background: transparent; font-size: 11px; font-weight: 800; cursor: pointer; }
+.mobile-category-tabs, .mobile-card-summary { display: none; }
 .certificate-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; }
 .certificate-grid[data-category="spa"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .certificate-card { min-height: 460px; border: 1px solid var(--line); display: grid; grid-template-rows: 1fr auto; position: relative; overflow: hidden; background: #fff; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease, color .25s ease; }
@@ -358,30 +359,55 @@ footer { min-height: 140px; display: grid; grid-template-columns: 1fr auto; alig
   .finder-progress span { position: relative; z-index: 1; min-width: 0; flex-direction: column; justify-content: flex-start; gap: 7px; text-align: center; white-space: normal; }
   .finder-progress b { width: 30px; height: 30px; flex: 0 0 30px; background: var(--paper); font-size: 10px; }
   .finder-progress.step-two > span:nth-of-type(2)::before, .finder-progress.step-three > span:nth-of-type(3)::before { content: ""; position: absolute; z-index: -1; top: 14px; right: 50%; width: 100%; height: 1px; background: var(--blue); }
-  .experience-choices { display: flex; grid-template-columns: none; gap: 12px; margin-right: -16px; padding-right: 34px; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scroll-padding-left: 0; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-  .experience-choices::-webkit-scrollbar { display: none; }
-  .experience-card { min-height: 438px; flex: 0 0 min(84vw, 330px); padding: 22px 22px 72px; scroll-snap-align: start; }
-  .experience-art { margin: -22px -22px 25px; height: 165px; }
-  .experience-card > strong { font-size: 30px; }
-  .experience-drawer { transform: none; background: transparent; }
-  .drawer-head, .drawer-list { display: none; }
-  .drawer-cta { min-height: 56px; margin: 0; padding: 0 22px; color: #fff; background: var(--blue); }
-  .options-shell { margin-left: -16px; margin-right: -16px; padding: 40px 16px 28px; }
+  .experience-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .experience-card { min-height: 210px; padding: 12px; border-color: var(--line); }
+  .experience-number { top: 8px; right: 8px; width: 26px; height: 26px; font-size: 8px; }
+  .experience-art { height: 96px; margin: -12px -12px 12px; }
+  .experience-photo-label { left: 8px; bottom: 8px; padding: 6px 7px; font-size: 6px; letter-spacing: .08em; }
+  .experience-kicker, .experience-copy, .experience-drawer { display: none; }
+  .experience-card > strong { margin: 2px 0 8px; font-size: clamp(18px, 5.3vw, 22px); line-height: .98; }
+  .experience-meta { margin-top: auto; padding: 8px 0 0; border: 0; gap: 5px; font-size: 8px; }
+  .experience-meta b, .experience-meta i { white-space: nowrap; }
+  .options-shell { margin-left: -16px; margin-right: -16px; padding: 30px 16px 24px; border-top-width: 4px; }
   .options-head { display: block; }
-  .options-head h3 { font-size: clamp(31px, 9.4vw, 40px); line-height: 1.05; }
+  .options-head { margin-bottom: 18px; }
+  .options-head h3 { font-size: clamp(29px, 8.6vw, 36px); line-height: 1.02; }
   .options-head p:last-child { font-size: 13px; line-height: 1.55; }
-  .change-category { min-height: 46px; margin-top: 16px; padding: 10px 0; }
+  .change-category { display: none; }
+  .mobile-category-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; margin: 0 0 14px; }
+  .mobile-category-tabs button { min-width: 0; min-height: 48px; padding: 7px 3px; border: 1px solid var(--line); color: var(--muted); background: #fff; font: 800 8px/1.15 "ALS Trigger", Arial, sans-serif; cursor: pointer; }
+  .mobile-category-tabs b { display: block; margin-bottom: 4px; color: var(--blue); font-size: 8px; }
+  .mobile-category-tabs button.active { color: #fff; background: var(--blue); border-color: var(--blue); }
+  .mobile-category-tabs button.active b { color: #fff; }
   .certificate-grid,
-  .certificate-grid[data-category="spa"] { grid-template-columns: 1fr; }
-  .certificate-card { min-height: 440px; transform: none; }
+  .certificate-grid[data-category="spa"] { grid-template-columns: 1fr; gap: 8px; }
+  .certificate-card { min-height: 0; display: block; transform: none; }
   .certificate-card.selected { transform: none; }
-  .ticket-main { padding: 27px 22px 22px; }
-  .ticket-stub { min-height: 100px; padding: 21px 22px 22px; }
-  .certificate-card h3 { margin-top: 34px; font-size: 27px; }
-  .card-description { font-size: 13px; line-height: 1.55; }
+  .mobile-card-summary { position: relative; z-index: 3; width: 100%; min-height: 112px; padding: 16px; border: 0; color: var(--ink); background: transparent; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 14px; text-align: left; cursor: pointer; }
+  .mobile-summary-copy { min-width: 0; display: grid; gap: 4px; }
+  .mobile-summary-copy small { color: var(--blue); font-size: 8px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+  .mobile-summary-copy strong { overflow: hidden; font-family: "ALS Trigger", Arial, sans-serif; font-size: 20px; line-height: 1; font-weight: 900; letter-spacing: -.025em; text-overflow: ellipsis; }
+  .mobile-summary-copy i { color: var(--muted); font-size: 9px; font-style: normal; font-weight: 700; }
+  .mobile-summary-price { display: grid; justify-items: end; gap: 4px; text-align: right; }
+  .mobile-summary-price small { color: var(--muted); font-size: 7px; text-transform: uppercase; letter-spacing: .06em; }
+  .mobile-summary-price strong { white-space: nowrap; font-size: 16px; font-variant-numeric: tabular-nums; }
+  .mobile-summary-price i { width: 23px; height: 23px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font-style: normal; transition: transform .2s ease; }
+  .mobile-summary-price i::before { content: ""; width: 6px; height: 6px; box-sizing: border-box; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); }
+  .certificate-card.expanded .mobile-summary-price i { transform: rotate(180deg); }
+  .certificate-card.selected .mobile-card-summary, .certificate-card.selected .mobile-summary-copy small, .certificate-card.selected .mobile-summary-copy i, .certificate-card.selected .mobile-summary-price small { color: #fff; }
+  .certificate-card.selected .mobile-summary-price i { border-color: rgba(255,255,255,.55); }
+  .ticket-pattern, .ticket-main, .ticket-stub { display: none; }
+  .certificate-card.expanded .ticket-main { min-height: 0; padding: 0 16px 12px; display: flex; }
+  .certificate-card.expanded .ticket-stub { min-height: 78px; padding: 10px 16px 16px; display: block; }
+  .certificate-card.expanded .ticket-main .card-top,
+  .certificate-card.expanded .ticket-main h3,
+  .certificate-card.expanded .ticket-main .card-hours { display: none; }
+  .ticket-perforation { display: none; }
+  .card-description { max-width: 100%; margin-bottom: 4px; font-size: 12px; line-height: 1.45; }
+  .card-prices { width: 100%; padding-top: 12px; }
   .price-row { min-height: 54px; gap: 12px; font-size: 13px; }
   .price-row strong { font-size: 18px; }
-  .card-select { min-height: 58px; }
+  .card-select { min-height: 54px; }
   .finder-help { grid-template-columns: auto 1fr; align-items: center; padding: 18px 16px; }
   .finder-help div { display: grid; gap: 3px; }
   .finder-help small { line-height: 1.45; }
