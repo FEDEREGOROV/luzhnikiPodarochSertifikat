@@ -1,5 +1,11 @@
 const PAYMENT_BASE = "https://aqua.luzhniki.ru/tarify/";
 
+window.dataLayer = window.dataLayer || [];
+
+function trackEvent(eventName, details = {}) {
+  window.dataLayer.push({ event: eventName, ...details });
+}
+
 const certificates = [
   {
     id: "aqua-day",
@@ -237,6 +243,78 @@ const categoryContent = {
   }
 };
 
+const certificateConditions = {
+  "pool-one": [
+    "Для одного взрослого посетителя",
+    "Одно посещение спортивного бассейна",
+    "Электронный билет можно показать с телефона",
+    "Точный срок использования указан при официальном оформлении"
+  ],
+  "pool-8": [
+    "Для одного взрослого посетителя",
+    "8 посещений спортивного бассейна",
+    "Активация в течение 180 дней после покупки",
+    "После активации абонемент действует 30 дней"
+  ],
+  "pool-12": [
+    "Для одного взрослого посетителя",
+    "12 посещений спортивного бассейна",
+    "Для абонемента может потребоваться активация в отделе продаж",
+    "Точные сроки будут показаны при официальном оформлении"
+  ],
+  "pool-365": [
+    "Для одного взрослого посетителя",
+    "Абонемент на 365 дней",
+    "Для абонемента может потребоваться активация в отделе продаж",
+    "Дата начала и точные условия будут показаны при оформлении"
+  ],
+  "club-6": [
+    "Для одного взрослого посетителя 16+",
+    "6 посещений Аквапарка + Терм на весь день",
+    "Активация в отделе продаж в течение 180 дней",
+    "Карта действует 365 дней после активации"
+  ],
+  "club-12": [
+    "Для одного взрослого посетителя 16+",
+    "12 посещений Аквапарка + Терм на весь день",
+    "Включены раздевалка, шкафчик и полотенце",
+    "Активация в течение 180 дней, карта действует 365 дней"
+  ],
+  "club-family": [
+    "Для двух взрослых 18+ и двух детей до 13 лет включительно",
+    "12 семейных посещений Аквапарка + Терм на весь день",
+    "Включены раздевалка, шкафчик и полотенце",
+    "Активация в течение 180 дней, карта действует 365 дней"
+  ],
+  "club-premium": [
+    "Для одного взрослого посетителя 16+",
+    "Аквапарк + Термы на весь день и спортивный бассейн на 60 минут",
+    "Одно посещение в день, включены раздевалка, шкафчик и полотенце",
+    "Карта действует 365 дней после оформления"
+  ]
+};
+
+function conditionsFor(item) {
+  if (certificateConditions[item.id]) return certificateConditions[item.id];
+  if (item.category === "aqua") {
+    return [
+      "Для взрослого 14+ или ребёнка 7–13 лет",
+      `Аквапарк + Термы – ${item.title.toLowerCase()}`,
+      "Дата посещения при покупке не требуется",
+      "Точный срок использования указан при официальном оформлении"
+    ];
+  }
+  if (item.category === "spa") {
+    return [
+      "Для взрослого посетителя 18+",
+      `${item.duration} – массаж или SPA-программа и отдых в банях`,
+      "Сертификат действует 90 дней с момента покупки",
+      "Перед посещением нужна запись: +7 (915) 074-94-14"
+    ];
+  }
+  return ["Точные условия использования будут показаны при официальном оформлении"];
+}
+
 function renderCards(category) {
   const visible = certificates.filter(item => item.category === category);
   grid.dataset.category = category;
@@ -252,8 +330,10 @@ function renderCards(category) {
 function cardTemplate(item) {
   const hours = item.category === "pool" || item.id === "club-premium" ? "07:00 – 22:00" : "10:00 – 22:00";
   const schedule = item.duration ? `Все дни · ${hours} · ${item.duration}` : `Все дни · ${hours}`;
-  const summaryPrice = item.price || `от ${item.prices.at(-1)[1]}`;
+  const summaryPrice = item.price || `${item.prices[0][1]}<br>${item.prices[1][1]}`;
+  const summaryPriceLabel = item.prices ? "взрослый / детский" : "стоимость";
   const expanded = expandedCertificateId === item.id || selectedCertificate?.id === item.id;
+  const conditions = conditionsFor(item);
   const prices = item.prices
     ? `<div class="card-prices">${item.prices.map(([label, price]) => `<div class="price-row"><span>${label}</span><strong>${price}</strong></div>`).join("")}</div>`
     : `<div class="card-prices"><div class="price-row single-price"><span>Стоимость</span><strong>${item.price}</strong></div></div>`;
@@ -268,7 +348,7 @@ function cardTemplate(item) {
           <i>${item.duration || hours}</i>
         </span>
         <span class="mobile-summary-price">
-          <small>${item.prices ? "минимальная цена" : "стоимость"}</small>
+          <small>${summaryPriceLabel}</small>
           <strong>${summaryPrice}</strong>
           <i aria-hidden="true"></i>
         </span>
@@ -281,6 +361,10 @@ function cardTemplate(item) {
         <h3>${item.title}</h3>
         <p class="card-hours">${schedule}</p>
         <p class="card-description">${item.description}</p>
+        <details class="card-terms">
+          <summary>Что входит и как использовать <span aria-hidden="true">+</span></summary>
+          <ul>${conditions.map(condition => `<li>${condition}</li>`).join("")}</ul>
+        </details>
         ${prices}
       </div>
       <div class="ticket-stub">
@@ -323,6 +407,7 @@ function showCategory(category, shouldScroll = true) {
   optionsShell.hidden = false;
   finderProgress.classList.add("step-two");
   renderCards(category);
+  trackEvent("certificate_category_view", { certificate_category: category });
   if (shouldScroll) finderProgress.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
@@ -331,10 +416,16 @@ function selectCertificate(id) {
   expandedCertificateId = id;
   renderCards(activeCategory);
   stickyTitle.textContent = `${selectedCertificate.tag} – ${selectedCertificate.title}`;
-  stickyPrice.textContent = selectedCertificate.price || `от ${selectedCertificate.prices.at(-1)[1]}`;
+  stickyPrice.textContent = selectedCertificate.price || selectedCertificate.prices.map(([label, price]) => `${label}: ${price}`).join(" · ");
   sticky.classList.add("visible");
   sticky.setAttribute("aria-hidden", "false");
   document.body.classList.add("has-selection");
+  trackEvent("certificate_select", {
+    certificate_id: selectedCertificate.id,
+    certificate_category: selectedCertificate.category,
+    certificate_name: selectedCertificate.title,
+    certificate_price: selectedCertificate.price || selectedCertificate.prices.map(([, price]) => price).join(" / ")
+  });
 }
 
 function resetFinder() {
@@ -362,6 +453,11 @@ function openPayment() {
   modal.hidden = false;
   finderProgress.classList.add("step-three");
   document.body.classList.add("modal-open");
+  trackEvent("certificate_checkout_open", {
+    certificate_id: selectedCertificate.id,
+    certificate_category: selectedCertificate.category,
+    certificate_name: selectedCertificate.title
+  });
   modalClose.focus();
 }
 
