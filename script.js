@@ -1,4 +1,124 @@
-const PAYMENT_BASE = "https://aqua.luzhniki.ru/tarify/";
+const MOIPASS_SCRIPT_SRC = "https://sale.moipass.ru/external.script.js";
+const MOIPASS_BASE_PARAMS = {
+  id: "854",
+  forcetab: "service",
+  onlytab: "service",
+  servicecalendar: "block",
+  busycalendar: true,
+  type: "modal",
+  hidenext: true
+};
+const MOIPASS_PRODUCT_GROUPS = {
+  "aqua-2h": {
+    name: "Аквапарк 2 часа",
+    tariffsid: [9252, 9254, 9359, 9357, 14905, 14906, 14907],
+    bundlesid: [111],
+    nocalendar: true
+  },
+  "aqua-3h": {
+    name: "Аквапарк 3 часа",
+    tariffsid: [9251, 9253, 9358, 9356, 14908, 14909, 14910],
+    bundlesid: [111],
+    nocalendar: true
+  },
+  "aqua-4h": {
+    name: "Аквапарк 4 часа",
+    tariffsid: [958, 1439, 8161, 9352, 9354, 14911, 14912, 14913],
+    bundlesid: [111],
+    nocalendar: true
+  },
+  "aqua-day": {
+    name: "Аквапарк весь день",
+    tariffsid: [3694, 1440, 8162, 9353, 9355, 14914, 14915, 14916],
+    bundlesid: [111],
+    nocalendar: true
+  },
+  "spa-thailand": {
+    name: "Традиции Таиланда",
+    tariffsid: [111111],
+    bundlesid: [2503],
+    nocalendar: true
+  },
+  "spa-delight": {
+    name: "Тайское наслаждение",
+    tariffsid: [111111],
+    bundlesid: [2504],
+    nocalendar: true
+  },
+  "spa-dreams": {
+    name: "Райские грёзы",
+    tariffsid: [111111],
+    bundlesid: [2505],
+    nocalendar: true
+  },
+  "spa-sport-60": {
+    name: "Спортивный массаж 60 минут",
+    tariffsid: [111111],
+    bundlesid: [2506],
+    nocalendar: true
+  },
+  "spa-sport-90": {
+    name: "Спортивный массаж 90 минут",
+    tariffsid: [111111],
+    bundlesid: [2507],
+    nocalendar: true
+  },
+  "spa-date": {
+    name: "Идеальное свидание",
+    tariffsid: [111111],
+    bundlesid: [2508],
+    nocalendar: true
+  },
+  "pool-one": {
+    name: "Бассейн, взрослый",
+    tariffsid: [13814],
+    bundlesid: [111111],
+    nocalendar: true
+  },
+  "pool-8": {
+    name: "Абонемент на 8 посещений",
+    tariffsid: [13818],
+    bundlesid: [111111],
+    nocalendar: true
+  },
+  "pool-12": {
+    name: "Абонемент на 12 посещений",
+    tariffsid: [13819],
+    bundlesid: [111111],
+    nocalendar: true
+  },
+  "pool-365": {
+    name: "Абонемент на 365 дней",
+    tariffsid: [13820],
+    bundlesid: [111111],
+    nocalendar: true
+  },
+  "club-12": {
+    name: "Аквалужники 12",
+    tariffsid: [13815],
+    bundlesid: [111111],
+    nocalendar: true
+  },
+  "club-family": {
+    name: "Большая семья",
+    tariffsid: [13816],
+    bundlesid: [111111],
+    nocalendar: true
+  },
+  "club-premium": {
+    name: "Аквалужники Премиум",
+    tariffsid: [13817],
+    bundlesid: [111111],
+    nocalendar: true
+  },
+  "club-6": {
+    name: "Аквалужники 6",
+    tariffsid: [14962],
+    bundlesid: [111111],
+    nocalendar: true
+  }
+};
+let moiPassLoadPromise = null;
 
 window.dataLayer = window.dataLayer || [];
 
@@ -216,10 +336,6 @@ const sticky = document.querySelector(".sticky-purchase");
 const stickyTitle = document.querySelector(".sticky-title");
 const stickyPrice = document.querySelector(".sticky-price");
 const stickyButton = document.querySelector(".sticky-button");
-const modal = document.querySelector(".payment-modal");
-const modalClose = document.querySelector(".modal-close");
-const paymentFrame = document.querySelector(".payment-frame");
-const fallbackLink = document.querySelector(".fallback-link");
 let selectedCertificate = null;
 let activeCategory = null;
 let expandedCertificateId = null;
@@ -445,28 +561,118 @@ function resetFinder() {
   experienceChoices.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-function openPayment() {
-  if (!selectedCertificate) return;
-  const url = PAYMENT_BASE + selectedCertificate.hash;
-  paymentFrame.src = url;
-  fallbackLink.href = url;
-  modal.hidden = false;
-  finderProgress.classList.add("step-three");
-  document.body.classList.add("modal-open");
-  trackEvent("certificate_checkout_open", {
-    certificate_id: selectedCertificate.id,
-    certificate_category: selectedCertificate.category,
-    certificate_name: selectedCertificate.title
+function handleMoiPassChange(data) {
+  if (!data || typeof data !== "object") return data;
+
+  trackEvent("moipass_widget_status", {
+    widget_status: data.status || "unknown",
+    order_id: data.data?.order_id || null,
+    certificate_id: selectedCertificate?.id || null
   });
-  modalClose.focus();
+
+  if (["cancel", "cancel_and_close", "wp-close-widget"].includes(data.status)) {
+    finderProgress.classList.remove("step-three");
+  }
+
+  return data;
 }
 
-function closePayment() {
-  modal.hidden = true;
-  paymentFrame.src = "about:blank";
-  finderProgress.classList.remove("step-three");
-  document.body.classList.remove("modal-open");
-  stickyButton.focus();
+function loadMoiPassWidget() {
+  if (typeof window.WPInit === "function" && typeof window.WPOpenModal === "function") {
+    window.WPChange = handleMoiPassChange;
+    return Promise.resolve();
+  }
+
+  if (moiPassLoadPromise) return moiPassLoadPromise;
+
+  moiPassLoadPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    const timeout = window.setTimeout(() => {
+      script.remove();
+      moiPassLoadPromise = null;
+      reject(new Error("MoiPass widget load timeout"));
+    }, 8000);
+
+    script.src = MOIPASS_SCRIPT_SRC;
+    script.async = true;
+    script.onload = () => {
+      window.clearTimeout(timeout);
+      window.WPChange = handleMoiPassChange;
+      resolve();
+    };
+    script.onerror = () => {
+      window.clearTimeout(timeout);
+      script.remove();
+      moiPassLoadPromise = null;
+      reject(new Error("MoiPass widget load error"));
+    };
+    document.head.appendChild(script);
+  });
+
+  return moiPassLoadPromise;
+}
+
+function getMoiPassProductGroup(certificate) {
+  return MOIPASS_PRODUCT_GROUPS[certificate.id] || null;
+}
+
+function showCheckoutNotice(message) {
+  stickyButton.disabled = true;
+  stickyButton.textContent = message;
+  window.setTimeout(() => {
+    stickyButton.disabled = false;
+    stickyButton.innerHTML = "Продолжить оформление <span>→</span>";
+  }, 3500);
+}
+
+async function openPayment() {
+  if (!selectedCertificate) return;
+  const certificate = selectedCertificate;
+  const productGroup = getMoiPassProductGroup(certificate);
+
+  if (!productGroup) {
+    trackEvent("certificate_checkout_unavailable", {
+      certificate_id: certificate.id,
+      certificate_category: certificate.category
+    });
+    showCheckoutNotice("Для этого варианта виджет пока не подключён");
+    return;
+  }
+
+  const initialButtonContent = stickyButton.innerHTML;
+  stickyButton.disabled = true;
+  stickyButton.textContent = "Загружаем виджет…";
+
+  try {
+    await loadMoiPassWidget();
+    window.WPInit({
+      ...MOIPASS_BASE_PARAMS,
+      tariffsid: [...productGroup.tariffsid],
+      bundlesid: [...productGroup.bundlesid],
+      nocalendar: productGroup.nocalendar
+    });
+    window.WPOpenModal();
+    finderProgress.classList.add("step-three");
+    trackEvent("certificate_checkout_open", {
+      certificate_id: certificate.id,
+      certificate_category: certificate.category,
+      certificate_name: certificate.title,
+      widget_product_group: productGroup.name,
+      checkout_provider: "moipass"
+    });
+  } catch (error) {
+    trackEvent("moipass_widget_error", {
+      certificate_id: certificate.id,
+      error_message: error.message
+    });
+    showCheckoutNotice("Виджет временно недоступен");
+    return;
+  }
+
+  if (stickyButton.disabled) {
+    stickyButton.disabled = false;
+    stickyButton.innerHTML = initialButtonContent;
+  }
 }
 
 experienceCards.forEach(card => card.addEventListener("click", () => showCategory(card.dataset.category)));
@@ -479,9 +685,6 @@ recommendationButton.addEventListener("click", () => {
 });
 
 stickyButton.addEventListener("click", openPayment);
-modalClose.addEventListener("click", closePayment);
-modal.addEventListener("click", event => { if (event.target === modal) closePayment(); });
-document.addEventListener("keydown", event => { if (event.key === "Escape" && !modal.hidden) closePayment(); });
 
 const menuButton = document.querySelector(".menu-button");
 const mobileNav = document.querySelector(".mobile-nav");
