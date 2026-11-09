@@ -132,7 +132,7 @@ const certificates = [
     category: "aqua",
     tag: "Аквапарк + Термы",
     title: "Весь день",
-    description: "Максимум свободы: аквапарк и термы с 10:00 до 22:00.",
+    description: "Максимум свободы: Аквапарк и Термы с 10:00 до 22:00.",
     prices: [["Взрослый 14+", "4 890 ₽"], ["Детский 7–13", "2 590 ₽"]],
     featured: "Самый полный",
     accent: "#67d8da",
@@ -164,7 +164,7 @@ const certificates = [
     category: "aqua",
     tag: "Аквапарк + Термы",
     title: "2 часа",
-    description: "Компактное знакомство с аквапарком и термами – легко вписать в день.",
+    description: "Компактное знакомство с Аквапарком и термами – легко вписать в день.",
     prices: [["Взрослый 14+", "3 190 ₽"], ["Детский 7–13", "1 590 ₽"]],
     accent: "#94a8eb",
     hash: "#!auth&view=order&tariffsid=9254,9252,14895,14893,14894&bundlesid=2222,14895,14893,14894&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
@@ -183,7 +183,7 @@ const certificates = [
     id: "club-12",
     category: "club",
     tag: "Клубная карта",
-    title: "Аквалужники 12",
+    title: "Аквалужники 12",
     description: "Серия посещений для регулярного отдыха и восстановления.",
     price: "35 000 ₽",
     accent: "#84cbe8",
@@ -193,7 +193,7 @@ const certificates = [
     id: "club-6",
     category: "club",
     tag: "Клубная карта",
-    title: "Аквалужники 6",
+    title: "Аквалужники 6",
     description: "Шесть поводов переключиться, перезагрузиться и побыть в своей стихии.",
     price: "20 000 ₽",
     featured: "Универсальный",
@@ -213,7 +213,7 @@ const certificates = [
   {
     id: "pool-one",
     category: "pool",
-    tag: "Бассейн",
+    tag: "Спортивный бассейн",
     title: "Одно посещение",
     description: "Подарочный сертификат для взрослого на посещение бассейна.",
     price: "1 390 ₽",
@@ -223,7 +223,7 @@ const certificates = [
   {
     id: "pool-8",
     category: "pool",
-    tag: "Бассейн",
+    tag: "Спортивный бассейн",
     title: "8 посещений",
     description: "Абонемент, который помогает превратить плавание в привычку.",
     price: "6 000 ₽",
@@ -233,7 +233,7 @@ const certificates = [
   {
     id: "pool-12",
     category: "pool",
-    tag: "Бассейн",
+    tag: "Спортивный бассейн",
     title: "12 посещений",
     description: "Больше тренировок, больше времени на себя и заметный ритм занятий.",
     price: "8 600 ₽",
@@ -244,9 +244,9 @@ const certificates = [
   {
     id: "pool-365",
     category: "pool",
-    tag: "Бассейн",
+    tag: "Спортивный бассейн",
     title: "365 дней",
-    description: "Годовой сертификат для серьезных целей и стабильной заботы о себе.",
+    description: "Годовой сертификат для серьёзных целей и стабильной заботы о себе.",
     price: "57 900 ₽",
     accent: "#5f77d2",
     hash: "#!auth&view=order&tariffsid=13527&bundlesid=111111&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
@@ -255,9 +255,9 @@ const certificates = [
     id: "spa-thailand",
     category: "spa",
     tag: "Массаж + Бани",
-    title: "Традиции Тайланда",
+    title: "Традиции Таиланда",
     duration: "60 + 60 минут",
-    description: "Арома-ойл массаж снимает напряжение, а час в банях помогает полностью переключиться.",
+    description: "Арома-ойл-массаж снимает напряжение, а час в банях помогает полностью переключиться.",
     price: "4 900 ₽",
     featured: "Мягкий старт",
     accent: "#4764ad",
@@ -269,7 +269,7 @@ const certificates = [
     tag: "Массаж + Бани",
     title: "Тайское наслаждение",
     duration: "90 + 60 минут",
-    description: "Длинный арома-ойл массаж с тёплым маслом и час спокойного отдыха в банях.",
+    description: "Длительный арома-ойл-массаж с тёплым маслом и час спокойного отдыха в банях.",
     price: "6 300 ₽",
     accent: "#4764ad",
     hash: "#!auth&view=order&tariffsid=111111&bundlesid=2498&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
@@ -278,7 +278,7 @@ const certificates = [
     id: "spa-dreams",
     category: "spa",
     tag: "SPA + Бани",
-    title: "Райские грезы",
+    title: "Райские грёзы",
     duration: "120 + 60 минут",
     description: "SPA-программа на выбор, уход за телом и целый час в банном комплексе.",
     price: "8 900 ₽",
@@ -360,6 +360,12 @@ const categoryContent = {
 };
 
 const certificateConditions = {
+  "spa-date": [
+    "Для двух взрослых посетителей 18+",
+    "90 + 60 минут – SPA-ритуал и отдых в банях",
+    "Сертификат действует 90 дней с момента покупки",
+    "Перед посещением нужна запись: +7 (915) 074-94-14"
+  ],
   "pool-one": [
     "Для одного взрослого посетителя",
     "Одно посещение спортивного бассейна",
