@@ -290,7 +290,7 @@ const certificates = [
     id: "spa-sport-60",
     category: "spa",
     tag: "Спортивный массаж",
-    title: "Спортивный · 60 минут",
+    title: "Спортивный, 60 минут",
     duration: "60 + 60 минут",
     description: "Глубокая проработка мышц с тёплым маслом и восстановление в банях.",
     price: "5 200 ₽",
@@ -301,7 +301,7 @@ const certificates = [
     id: "spa-sport-90",
     category: "spa",
     tag: "Спортивный массаж",
-    title: "Спортивный · 90 минут",
+    title: "Спортивный, 90 минут",
     duration: "90 + 60 минут",
     description: "Более глубокая работа с мышцами и полноценный банный ритуал после массажа.",
     price: "6 600 ₽",
@@ -451,7 +451,7 @@ function renderCards(category) {
 
 function cardTemplate(item) {
   const hours = item.category === "pool" ? "07:00–22:00" : "10:00–22:00";
-  const schedule = item.duration ? `Все дни ${hours} · ${item.duration}` : `Все дни ${hours}`;
+  const schedule = item.duration ? `Все дни ${hours}, ${item.duration}` : `Все дни ${hours}`;
   const summaryPrice = item.price || `${item.prices[0][1]}<br>${item.prices[1][1]}`;
   const summaryPriceLabel = item.prices ? "взрослый / детский" : "стоимость";
   const expanded = expandedCertificateId === item.id || selectedCertificate?.id === item.id;
@@ -542,7 +542,7 @@ function selectCertificate(id) {
   expandedCertificateId = id;
   renderCards(activeCategory);
   stickyTitle.textContent = `${selectedCertificate.tag} – ${selectedCertificate.title}`;
-  stickyPrice.textContent = selectedCertificate.price || selectedCertificate.prices.map(([label, price]) => `${label}: ${price}`).join(" · ");
+  stickyPrice.textContent = selectedCertificate.price || selectedCertificate.prices.map(([label, price]) => `${label}: ${price}`).join(", ");
   sticky.classList.add("visible");
   sticky.setAttribute("aria-hidden", "false");
   document.body.classList.add("has-selection");
