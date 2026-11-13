@@ -450,8 +450,8 @@ function renderCards(category) {
 }
 
 function cardTemplate(item) {
-  const hours = item.category === "pool" ? "07:00 – 22:00" : "10:00 – 22:00";
-  const schedule = item.duration ? `Все дни · ${hours} · ${item.duration}` : `Все дни · ${hours}`;
+  const hours = item.category === "pool" ? "07:00–22:00" : "10:00–22:00";
+  const schedule = item.duration ? `Все дни ${hours} · ${item.duration}` : `Все дни ${hours}`;
   const summaryPrice = item.price || `${item.prices[0][1]}<br>${item.prices[1][1]}`;
   const summaryPriceLabel = item.prices ? "взрослый / детский" : "стоимость";
   const expanded = expandedCertificateId === item.id || selectedCertificate?.id === item.id;
