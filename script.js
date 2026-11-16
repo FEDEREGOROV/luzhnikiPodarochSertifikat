@@ -213,7 +213,7 @@ const certificates = [
   {
     id: "pool-one",
     category: "pool",
-    tag: "Спортивный бассейн",
+    tag: "Бассейн + Термы",
     title: "Одно посещение",
     description: "Подарочный сертификат для взрослого на посещение бассейна.",
     price: "1 390 ₽",
@@ -223,7 +223,7 @@ const certificates = [
   {
     id: "pool-8",
     category: "pool",
-    tag: "Спортивный бассейн",
+    tag: "Бассейн + Термы",
     title: "8 посещений",
     description: "Абонемент, который помогает превратить плавание в привычку.",
     price: "6 000 ₽",
@@ -233,7 +233,7 @@ const certificates = [
   {
     id: "pool-12",
     category: "pool",
-    tag: "Спортивный бассейн",
+    tag: "Бассейн + Термы",
     title: "12 посещений",
     description: "Больше тренировок, больше времени на себя и заметный ритм занятий.",
     price: "8 600 ₽",
@@ -244,7 +244,7 @@ const certificates = [
   {
     id: "pool-365",
     category: "pool",
-    tag: "Спортивный бассейн",
+    tag: "Бассейн + Термы",
     title: "365 дней",
     description: "Годовой сертификат для серьёзных целей и стабильной заботы о себе.",
     price: "57 900 ₽",
@@ -254,10 +254,10 @@ const certificates = [
   {
     id: "spa-thailand",
     category: "spa",
-    tag: "Массаж + Бани",
+    tag: "Массаж + Термы",
     title: "Традиции Таиланда",
     duration: "60 + 60 минут",
-    description: "Арома-ойл-массаж снимает напряжение, а час в банях помогает полностью переключиться.",
+    description: "Арома-ойл-массаж снимает напряжение, а час в термах помогает полностью переключиться.",
     price: "4 900 ₽",
     featured: "Мягкий старт",
     accent: "#4764ad",
@@ -266,10 +266,10 @@ const certificates = [
   {
     id: "spa-delight",
     category: "spa",
-    tag: "Массаж + Бани",
+    tag: "Массаж + Термы",
     title: "Тайское наслаждение",
     duration: "90 + 60 минут",
-    description: "Длительный арома-ойл-массаж с тёплым маслом и час спокойного отдыха в банях.",
+    description: "Длительный арома-ойл-массаж с тёплым маслом и час спокойного отдыха в термах.",
     price: "6 300 ₽",
     accent: "#4764ad",
     hash: "#!auth&view=order&tariffsid=111111&bundlesid=2498&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
@@ -277,10 +277,10 @@ const certificates = [
   {
     id: "spa-dreams",
     category: "spa",
-    tag: "SPA + Бани",
+    tag: "SPA + Термы",
     title: "Райские грёзы",
     duration: "120 + 60 минут",
-    description: "SPA-программа на выбор, уход за телом и целый час в банном комплексе.",
+    description: "SPA-программа на выбор, уход за телом и целый час в термальном комплексе.",
     price: "8 900 ₽",
     featured: "SPA-ритуал",
     accent: "#4764ad",
@@ -289,10 +289,10 @@ const certificates = [
   {
     id: "spa-sport-60",
     category: "spa",
-    tag: "Спортивный массаж",
+    tag: "Спортивный массаж + Термы",
     title: "Спортивный, 60 минут",
     duration: "60 + 60 минут",
-    description: "Глубокая проработка мышц с тёплым маслом и восстановление в банях.",
+    description: "Глубокая проработка мышц с тёплым маслом и восстановление в термах.",
     price: "5 200 ₽",
     accent: "#4764ad",
     hash: "#!auth&view=order&tariffsid=111111&bundlesid=2500&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
@@ -300,10 +300,10 @@ const certificates = [
   {
     id: "spa-sport-90",
     category: "spa",
-    tag: "Спортивный массаж",
+    tag: "Спортивный массаж + Термы",
     title: "Спортивный, 90 минут",
     duration: "90 + 60 минут",
-    description: "Более глубокая работа с мышцами и полноценный банный ритуал после массажа.",
+    description: "Более глубокая работа с мышцами и полноценный отдых в термах после массажа.",
     price: "6 600 ₽",
     accent: "#4764ad",
     hash: "#!auth&view=order&tariffsid=111111&bundlesid=2501&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
@@ -311,10 +311,10 @@ const certificates = [
   {
     id: "spa-date",
     category: "spa",
-    tag: "SPA для двоих",
+    tag: "SPA для двоих + Термы",
     title: "Идеальное свидание",
     duration: "90 + 60 минут",
-    description: "Романтический SPA-ритуал на двоих: массаж, спокойная атмосфера и отдых в банях.",
+    description: "Романтический SPA-ритуал на двоих: массаж, спокойная атмосфера и отдых в термах.",
     price: "15 600 ₽",
     featured: "Для двоих",
     accent: "#4764ad",
@@ -362,7 +362,7 @@ const categoryContent = {
 const certificateConditions = {
   "spa-date": [
     "Для двух взрослых посетителей 18+",
-    "90 + 60 минут – SPA-ритуал и отдых в банях",
+    "90 + 60 минут – SPA-ритуал и отдых в термах",
     "Сертификат действует 90 дней с момента покупки",
     "Перед посещением нужна запись: +7 (915) 074-94-14"
   ],
@@ -422,14 +422,13 @@ function conditionsFor(item) {
     return [
       "Для взрослого 14+ или ребёнка 7–13 лет",
       `Аквапарк + Термы – ${item.title.toLowerCase()}`,
-      "Дата посещения при покупке не требуется",
       "Сертификат можно активировать в течение 180 дней со дня покупки"
     ];
   }
   if (item.category === "spa") {
     return [
       "Для взрослого посетителя 18+",
-      `${item.duration} – массаж или SPA-программа и отдых в банях`,
+      `${item.duration} – массаж или SPA-программа и отдых в термах`,
       "Сертификат действует 90 дней с момента покупки",
       "Перед посещением нужна запись: +7 (915) 074-94-14"
     ];
@@ -457,7 +456,7 @@ function cardTemplate(item) {
   const expanded = expandedCertificateId === item.id || selectedCertificate?.id === item.id;
   const conditions = conditionsFor(item);
   const poolNote = item.category === "pool"
-    ? `<p class="card-terms-note">Крытые бассейны 25 и 50 м, термальный комплекс, раздевалка, душ, шкафчик и полотенце. Сеанс в бассейне – 120 минут.</p>`
+    ? `<p class="card-terms-note">Крытые бассейны 25 и 50 м, термальный комплекс, раздевалка, душ, шкафчик и полотенце. Общая продолжительность посещения – 120 минут.</p>`
     : "";
   const prices = item.prices
     ? `<div class="card-prices">${item.prices.map(([label, price]) => `<div class="price-row"><span>${label}</span><strong>${price}</strong></div>`).join("")}</div>`
