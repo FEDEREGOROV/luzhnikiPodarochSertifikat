@@ -16,4 +16,4 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
-Sitemap: https://federegorov.github.io/luzhnikiPodarochSertifikat/sitemap.xml
+Sitemap: https://gift.luzhniki.ru/sitemap.xml
