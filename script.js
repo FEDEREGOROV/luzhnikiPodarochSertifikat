@@ -133,7 +133,7 @@ const certificates = [
     tag: "Аквапарк + Термы",
     title: "Весь день",
     description: "Максимум свободы: Аквапарк и Термы с 10:00 до 22:00.",
-    prices: [["Подростки 14–17 лет", "4 890 ₽"], ["Взрослые 18+", "4 890 ₽"], ["Детский 7–13", "2 590 ₽"]],
+    prices: [["Взрослые 18+", "4 890 ₽"], ["Подростки 14–17 лет", "4 890 ₽"], ["Детский 7–13", "2 590 ₽"]],
     featured: "Самый полный",
     accent: "#67d8da",
     hash: "#!auth&view=order&tariffsid=3694,8162,14902,14903,14904&bundlesid=2222&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
@@ -144,7 +144,7 @@ const certificates = [
     tag: "Аквапарк + Термы",
     title: "4 часа",
     description: "Достаточно времени для горок, бассейнов и спокойного отдыха в термах.",
-    prices: [["Подростки 14–17 лет", "4 290 ₽"], ["Взрослые 18+", "4 290 ₽"], ["Детский 7–13", "2 190 ₽"]],
+    prices: [["Взрослые 18+", "4 290 ₽"], ["Подростки 14–17 лет", "4 290 ₽"], ["Детский 7–13", "2 190 ₽"]],
     featured: "Для первого знакомства",
     accent: "#d9ed60",
     hash: "#!auth&view=order&tariffsid=958,8161,14899,14900,14901&bundlesid=2222&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
@@ -155,7 +155,7 @@ const certificates = [
     tag: "Аквапарк + Термы",
     title: "3 часа",
     description: "Сбалансированный формат для яркого отдыха без планов на весь день.",
-    prices: [["Подростки 14–17 лет", "3 690 ₽"], ["Взрослые 18+", "3 690 ₽"], ["Детский 7–13", "1 990 ₽"]],
+    prices: [["Взрослые 18+", "3 690 ₽"], ["Подростки 14–17 лет", "3 690 ₽"], ["Детский 7–13", "1 990 ₽"]],
     accent: "#8ad8bd",
     hash: "#!auth&view=order&tariffsid=9253,9251,14897,14898,14896&bundlesid=2222&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
   },
@@ -165,7 +165,7 @@ const certificates = [
     tag: "Аквапарк + Термы",
     title: "2 часа",
     description: "Компактное знакомство с Аквапарком и термами – легко вписать в день.",
-    prices: [["Подростки 14–17 лет", "3 190 ₽"], ["Взрослые 18+", "3 190 ₽"], ["Детский 7–13", "1 590 ₽"]],
+    prices: [["Взрослые 18+", "3 190 ₽"], ["Подростки 14–17 лет", "3 190 ₽"], ["Детский 7–13", "1 590 ₽"]],
     accent: "#94a8eb",
     hash: "#!auth&view=order&tariffsid=9254,9252,14895,14893,14894&bundlesid=2222,14895,14893,14894&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
   },
@@ -269,7 +269,7 @@ const certificates = [
     tag: "Массаж + Термы",
     title: "Тайское наслаждение",
     duration: "90 + 60 минут",
-    description: "Длительный массаж с ароматическими маслами и час спокойного отдыха",
+    description: "Длительный массаж с ароматическими маслами и час спокойного отдыха в термах.",
     price: "6 300 ₽",
     accent: "#4764ad",
     hash: "#!auth&view=order&tariffsid=111111&bundlesid=2498&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
@@ -277,7 +277,7 @@ const certificates = [
   {
     id: "spa-dreams",
     category: "spa",
-    tag: "спа + Термы",
+    tag: "СПА + Термы",
     title: "Райские грёзы",
     duration: "120 + 60 минут",
     description: "спа-программа на выбор, уход за телом и целый час в термальном комплексе.",
@@ -311,7 +311,7 @@ const certificates = [
   {
     id: "spa-date",
     category: "spa",
-    tag: "спа для двоих + Термы",
+    tag: "СПА для двоих + Термы",
     title: "Идеальное свидание",
     duration: "90 + 60 минут",
     description: "Романтический спа-ритуал на двоих: массаж, спокойная атмосфера и отдых в термах.",
@@ -343,7 +343,7 @@ let expandedCertificateId = null;
 const categoryContent = {
   aqua: {
     title: "Сколько времени подарить?",
-    description: "Во всех вариантах доступны сертификаты для подростков, взрослых и детей. Дата посещения при покупке не требуется."
+    description: "Во всех вариантах доступны сертификаты для взрослых, подростков и детей. Дата посещения при покупке не требуется."
   },
   pool: {
     title: "Как часто хочется плавать?",
@@ -448,10 +448,6 @@ function renderCards(category) {
   });
 }
 
-function displayText(value) {
-  return value.replaceAll("спа", '<span class="text-lowercase">спа</span>');
-}
-
 function cardTemplate(item) {
   const hours = item.category === "pool" ? "07:00–22:00" : "10:00–22:00";
   const schedule = item.duration ? `Все дни ${hours}, ${item.duration}` : `Все дни ${hours}`;
@@ -471,7 +467,7 @@ function cardTemplate(item) {
       <span class="ticket-pattern" aria-hidden="true"></span>
       <button class="mobile-card-summary" type="button" data-expand="${item.id}" aria-expanded="${expanded}" aria-controls="details-${item.id}">
         <span class="mobile-summary-copy">
-          <small>${displayText(item.tag)}</small>
+          <small>${item.tag}</small>
           <strong>${item.title}</strong>
           <i>${item.duration || hours}</i>
         </span>
@@ -483,7 +479,7 @@ function cardTemplate(item) {
       </button>
       <div class="ticket-main" id="details-${item.id}">
         <div class="card-top">
-          <span class="card-tag">${displayText(item.tag)}</span>
+          <span class="card-tag">${item.tag}</span>
           ${item.featured ? `<span class="card-badge">${item.featured}</span>` : ""}
         </div>
         <h3>${item.title}</h3>
