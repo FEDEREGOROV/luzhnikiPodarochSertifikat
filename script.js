@@ -133,7 +133,7 @@ const certificates = [
     tag: "Аквапарк + Термы",
     title: "Весь день",
     description: "Максимум свободы: Аквапарк и Термы с 10:00 до 22:00.",
-    prices: [["Взрослые 18+", "4 890 ₽"], ["Подростки 14–17 лет", "4 890 ₽"], ["Детский 7–13", "2 590 ₽"]],
+    prices: [["Взрослые 18+", "4 890 ₽"], ["Подростки 14–17 лет", "4 890 ₽"], ["Дети 7–13 лет", "2 590 ₽"]],
     featured: "Самый полный",
     accent: "#67d8da",
     hash: "#!auth&view=order&tariffsid=3694,8162,14902,14903,14904&bundlesid=2222&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
@@ -144,7 +144,7 @@ const certificates = [
     tag: "Аквапарк + Термы",
     title: "4 часа",
     description: "Достаточно времени для горок, бассейнов и спокойного отдыха в термах.",
-    prices: [["Взрослые 18+", "4 290 ₽"], ["Подростки 14–17 лет", "4 290 ₽"], ["Детский 7–13", "2 190 ₽"]],
+    prices: [["Взрослые 18+", "4 290 ₽"], ["Подростки 14–17 лет", "4 290 ₽"], ["Дети 7–13 лет", "2 190 ₽"]],
     featured: "Для первого знакомства",
     accent: "#d9ed60",
     hash: "#!auth&view=order&tariffsid=958,8161,14899,14900,14901&bundlesid=2222&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
@@ -155,7 +155,7 @@ const certificates = [
     tag: "Аквапарк + Термы",
     title: "3 часа",
     description: "Сбалансированный формат для яркого отдыха без планов на весь день.",
-    prices: [["Взрослые 18+", "3 690 ₽"], ["Подростки 14–17 лет", "3 690 ₽"], ["Детский 7–13", "1 990 ₽"]],
+    prices: [["Взрослые 18+", "3 690 ₽"], ["Подростки 14–17 лет", "3 690 ₽"], ["Дети 7–13 лет", "1 990 ₽"]],
     accent: "#8ad8bd",
     hash: "#!auth&view=order&tariffsid=9253,9251,14897,14898,14896&bundlesid=2222&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
   },
@@ -165,7 +165,7 @@ const certificates = [
     tag: "Аквапарк + Термы",
     title: "2 часа",
     description: "Компактное знакомство с Аквапарком и термами – легко вписать в день.",
-    prices: [["Взрослые 18+", "3 190 ₽"], ["Подростки 14–17 лет", "3 190 ₽"], ["Детский 7–13", "1 590 ₽"]],
+    prices: [["Взрослые 18+", "3 190 ₽"], ["Подростки 14–17 лет", "3 190 ₽"], ["Дети 7–13 лет", "1 590 ₽"]],
     accent: "#94a8eb",
     hash: "#!auth&view=order&tariffsid=9254,9252,14895,14893,14894&bundlesid=2222,14895,14893,14894&nocalendar=true&cartmaxitems=14&showdisclaimer=true&requiredloyalty=false"
   },
